@@ -1,281 +1,106 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import ImageCard from './ImageCard';
-import { Image as ImageIcon, Sparkles, Loader } from 'lucide-react';
+import { motion } from "framer-motion";
+import ImageCard from "./ImageCard";
 
 const MasonryGrid = ({ images = [], loading = false }) => {
-  const [columns, setColumns] = useState(4);
-
-  // Responsive column calculation
-  useEffect(() => {
-    const updateColumns = () => {
-      const width = window.innerWidth;
-      if (width < 640) setColumns(1);
-      else if (width < 768) setColumns(2);
-      else if (width < 1024) setColumns(3);
-      else setColumns(4);
-    };
-
-    updateColumns();
-    window.addEventListener('resize', updateColumns);
-    return () => window.removeEventListener('resize', updateColumns);
-  }, []);
-
-  // Distribute images into columns
-  const columnData = Array.from({ length: columns }, () => []);
-  images.forEach((image, index) => {
-    columnData[index % columns].push(image);
-  });
-
-  // Loading state
+  /* -------------------- Loading State -------------------- */
   if (loading) {
     return (
-      <div style={{
-        width: '100%',
-        minHeight: '60vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '32px'
-      }}>
-        <div style={{ position: 'relative' }}>
-          <div style={{
-            width: '64px',
-            height: '64px',
-            border: '4px solid #1f2937',
-            borderTop: '4px solid #3b82f6',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }}></div>
-        </div>
-        <p style={{
-          marginTop: '24px',
-          color: '#9ca3af',
-          fontWeight: '500',
-          fontSize: '18px'
-        }}>
+      <div className="w-full min-h-[60vh] flex flex-col items-center justify-center">
+        <div className="w-16 h-16 border-4 border-gray-700 border-t-blue-500 rounded-full animate-spin" />
+        <p className="mt-6 text-gray-400 font-medium text-lg">
           Loading creative artworks...
         </p>
-        
-        {/* CSS for animation */}
-        <style>{`
-          @keyframes spin {
-            to { transform: rotate(360deg); }
-          }
-        `}</style>
       </div>
     );
   }
 
-  // Empty state
+  /* -------------------- Empty State -------------------- */
   if (images.length === 0) {
     return (
-      <div style={{
-        width: '100%',
-        minHeight: '60vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '32px',
-        textAlign: 'center'
-      }}>
+      <div className="w-full min-h-[60vh] flex flex-col items-center justify-center text-center px-6">
         <motion.div
-          initial={{ scale: 0, opacity: 0 }}
+          initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", damping: 15 }}
-          style={{ position: 'relative', marginBottom: '32px' }}
+          transition={{ type: "spring", stiffness: 120 }}
+          className="mb-8"
         >
-          <div style={{
-            width: '128px',
-            height: '128px',
-            background: 'linear-gradient(135deg, #111827, #000000)',
-            borderRadius: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: '2px solid #374151',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)'
-          }}>
-            <div style={{ width: '64px', height: '64px', color: '#4b5563' }}>
-              📷
-            </div>
-            <div style={{
-              position: 'absolute',
-              top: '-8px',
-              right: '-8px',
-              width: '48px',
-              height: '48px',
-              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)'
-            }}>
-              <div style={{ color: 'white' }}>✨</div>
-            </div>
+          <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-gray-900 to-black border border-gray-700 flex items-center justify-center relative shadow-xl">
+            <span className="text-5xl">📷</span>
+            <span className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white shadow-lg">
+              ✨
+            </span>
           </div>
         </motion.div>
-        <h3 style={{
-          fontSize: '24px',
-          fontWeight: 'bold',
-          color: 'white',
-          marginBottom: '12px'
-        }}>
+
+        <h3 className="text-2xl font-bold text-white mb-2">
           Gallery Awaits Your Art
         </h3>
-        <p style={{
-          color: '#9ca3af',
-          fontSize: '18px',
-          maxWidth: '28rem',
-          marginBottom: '24px'
-        }}>
+        <p className="text-gray-400 max-w-md">
           No images found yet. Be the first to share your creativity!
         </p>
       </div>
     );
   }
 
+  /* -------------------- Main Grid -------------------- */
   return (
-    <div style={{ width: '100%' }}>
-      {/* Stats Bar */}
-      <div style={{
-        marginBottom: '32px',
-        padding: '24px',
-        background: '#111827',
-        borderRadius: '20px',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)'
-      }}>
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '16px'
-        }}>
+    <div className="w-full">
+      {/* Header / Stats */}
+      <div className="mb-8 p-6 bg-gray-900 border border-white/10 rounded-2xl shadow-lg">
+        <div className="flex flex-wrap items-center justify-between gap-6">
           <div>
-            <h2 style={{
-              fontSize: '24px',
-              fontWeight: '900',
-              color: 'white',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              <span style={{ color: '#fbbf24' }}>✨</span> Creative Gallery
+            <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
+              <span className="text-yellow-400">✨</span> Creative Gallery
             </h2>
-            <p style={{
-              color: '#6b7280',
-              fontSize: '14px',
-              marginTop: '4px'
-            }}>
+            <p className="text-gray-400 text-sm mt-1">
               Discover amazing artworks from our community
             </p>
           </div>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '24px'
-          }}>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{
-                fontSize: '24px',
-                fontWeight: '900',
-                color: 'white'
-              }}>{images.length}</p>
-              <p style={{
-                color: '#6b7280',
-                fontSize: '10px',
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: '0.1em'
-              }}>Artworks</p>
-            </div>
-            <div style={{
-              height: '32px',
-              width: '1px',
-              backgroundColor: 'rgba(255, 255, 255, 0.1)'
-            }}></div>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{
-                fontSize: '24px',
-                fontWeight: '900',
-                color: '#6366f1'
-              }}>{columns}</p>
-              <p style={{
-                color: '#6b7280',
-                fontSize: '10px',
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: '0.1em'
-              }}>Columns</p>
+
+          <div className="flex items-center gap-8">
+            <div className="text-center">
+              <p className="text-2xl font-black text-white">
+                {images.length}
+              </p>
+              <p className="text-[10px] uppercase tracking-widest text-gray-500">
+                Artworks
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Masonry Grid */}
-      <div style={{
-        display: 'grid',
-        gap: '24px',
-        gridTemplateColumns: '1fr'
-      }}>
-        {/* Responsive grid */}
-        {window.innerWidth >= 640 && (
-          <style>{`
-            @media (min-width: 640px) {
-              .masonry-grid { grid-template-columns: repeat(2, 1fr); }
-            }
-            @media (min-width: 768px) {
-              .masonry-grid { grid-template-columns: repeat(${columns > 2 ? 3 : 2}, 1fr); }
-            }
-            @media (min-width: 1024px) {
-              .masonry-grid { grid-template-columns: repeat(${columns}, 1fr); }
-            }
-          `}</style>
-        )}
-        
-        <div className="masonry-grid" style={{ gap: '24px' }}>
-          {columnData.map((column, colIndex) => (
-            <div 
-              key={colIndex} 
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '24px'
-              }}
-            >
-              {column.map((image, imgIndex) => (
-                <motion.div 
-                  key={image.id || `${colIndex}-${imgIndex}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: (colIndex * 0.1) + (imgIndex * 0.1) }}
-                >
-                  <ImageCard image={image} />
-                </motion.div>
-              ))}
-            </div>
-          ))}
-        </div>
+      {/* Masonry using CSS columns (BEST & STABLE) */}
+      <div
+        className="
+          columns-1
+          sm:columns-2
+          md:columns-3
+          lg:columns-4
+          gap-6
+        "
+      >
+        {images.map((image, index) => (
+          <motion.div
+            key={image._id || index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            className="mb-6 break-inside-avoid"
+          >
+            <ImageCard image={image} />
+          </motion.div>
+        ))}
       </div>
 
-      {/* Footer count */}
-      <div style={{
-        marginTop: '64px',
-        paddingTop: '32px',
-        paddingBottom: '32px',
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-        textAlign: 'center'
-      }}>
-        <p style={{
-          color: '#6b7280',
-          fontSize: '14px'
-        }}>
-          Showing <span style={{ color: 'white', fontWeight: 'bold' }}>{images.length}</span> artworks • Scroll to explore more
+      {/* Footer */}
+      <div className="mt-16 pt-8 border-t border-white/10 text-center">
+        <p className="text-gray-500 text-sm">
+          Showing{" "}
+          <span className="text-white font-semibold">
+            {images.length}
+          </span>{" "}
+          artworks • Scroll to explore more
         </p>
       </div>
     </div>
