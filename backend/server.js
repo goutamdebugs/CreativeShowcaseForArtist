@@ -13,13 +13,15 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "https://creativeshowcaseforartist.onrender.com"
-    ],
-    credentials: true
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "https://creativeshowcaseforartist.onrender.com",
+    "https://creativeshowcaseforartist-1.onrender.com"
+  ],
+  credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
