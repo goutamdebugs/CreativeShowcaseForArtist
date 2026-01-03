@@ -13,11 +13,12 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://creativeshowcaseforartist.onrender.com"
-  ],
-  credentials: true
+    origin: [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "https://creativeshowcaseforartist.onrender.com"
+    ],
+    credentials: true
 }));
 
 app.use(express.json());
@@ -35,9 +36,9 @@ app.get('/', (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-    
+
     console.error('Server Error:', err.message);
-    
+
     res.status(statusCode).json({
         success: false,
         message: err.message || 'Internal Server Error',
