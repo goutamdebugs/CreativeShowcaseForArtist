@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          
+
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
@@ -31,8 +31,8 @@ const Footer = () => {
             <ul className="space-y-3">
               {['Home', 'Gallery', 'Artists', 'Trending'].map((item) => (
                 <li key={item}>
-                  <a 
-                    href="#" 
+                  <a
+                    href="#"
                     className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm"
                   >
                     {item}
@@ -48,8 +48,8 @@ const Footer = () => {
             <ul className="space-y-3">
               {['Blog', 'Documentation', 'Support', 'Community'].map((item) => (
                 <li key={item}>
-                  <a 
-                    href="#" 
+                  <a
+                    href="#"
                     className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm"
                   >
                     {item}
@@ -77,15 +77,21 @@ const Footer = () => {
                 >
                   <span className="text-lg">{
                     social.name === 'twitter' ? '🐦' :
-                    social.name === 'instagram' ? '📷' :
-                    social.name === 'facebook' ? '📘' : '💻'
+                      social.name === 'instagram' ? '📷' :
+                        social.name === 'facebook' ? '📘' : '💻'
                   }</span>
                 </a>
               ))}
             </div>
             <p className="text-sm text-gray-400 mt-4">
-              contact@creativeshowcase.com
+              goutam.debugs@gmail.com
+              <img
+              src="https://avatars.githubusercontent.com/u/249311741?v=4"
+              alt="Profile"
+              className="w-20 h-20 rounded-full object-cover mx-auto"
+            />
             </p>
+            
           </div>
         </div>
 

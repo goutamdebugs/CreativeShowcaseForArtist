@@ -335,7 +335,7 @@ const HomePage = () => {
                 justifyContent: 'center',
                 flexWrap: 'wrap'
               }}>
-                <Link
+                {/* <Link
                   to="/upload"
                   style={{
                     display: 'inline-flex',
@@ -364,7 +364,7 @@ const HomePage = () => {
                 >
                   <Upload style={{ width: '20px', height: '20px' }} />
                   Upload New Artwork
-                </Link>
+                </Link> */}
                 
                 <Link
                   to="/dashboard"
