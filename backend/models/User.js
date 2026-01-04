@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// ✅ **Mongoose v7 FIX: Remove 'next' parameter**
+
 userSchema.pre('save', async function() {
     // Only hash the password if it has been modified
     if (!this.isModified('password')) {
